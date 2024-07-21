@@ -20,11 +20,20 @@ import java.util.UUID;
 public interface DealContractorRepository extends JpaRepository<DealContractor, UUID> {
 
     /**
+     * Проверяет наличие главного контрагента сделки.
+     *
+     * @param id идентификатор сделки.
+     * @return true, если у сделки присутствует главный контрагент.
+     */
+    boolean existsByDealIdAndMainTrue(UUID id);
+
+    /**
      * Получает всех контрагентов сделки.
      *
      * @param dealId идентификатор сделки.
      * @return контрагентов сделки.
      */
+
     @Query(value = "select dc from DealContractor dc " +
             "where dc.deal.id = :dealId and dc.isActive is true")
     List<DealContractor> findAllByDealId(@Param("dealId") UUID dealId);

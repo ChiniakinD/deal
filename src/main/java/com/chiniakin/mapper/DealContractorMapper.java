@@ -60,7 +60,8 @@ public class DealContractorMapper {
                 .setContractorId(saveDealContractorModel.getContractorID())
                 .setId(saveDealContractorModel.getId())
                 .setInn(saveDealContractorModel.getInn())
-                .setName(saveDealContractorModel.getName());
+                .setName(saveDealContractorModel.getName())
+                .setMain(saveDealContractorModel.isMain());
     }
 
 }
