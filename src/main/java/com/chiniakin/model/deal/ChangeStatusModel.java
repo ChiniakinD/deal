@@ -7,6 +7,11 @@ import lombok.Setter;
 
 import java.util.UUID;
 
+/**
+ * Модель для изменения статуса сделки.
+ *
+ * @author ChiniakinD
+ */
 @Getter
 @Setter
 @RequiredArgsConstructor

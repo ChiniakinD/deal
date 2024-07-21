@@ -11,6 +11,11 @@ import lombok.Setter;
 
 import java.util.UUID;
 
+/**
+ * Модель контрагента сделки и его роли.
+ *
+ * @author ChiniakinD
+ */
 @Getter
 @Setter
 @Entity

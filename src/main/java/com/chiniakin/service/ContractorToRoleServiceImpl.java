@@ -9,6 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+/**
+ * Реализация сервиса для работы с ролями контрагентов сделки.
+ *
+ * @author ChiniakinD
+ */
 @Service
 @RequiredArgsConstructor
 public class ContractorToRoleServiceImpl implements ContractorToRoleService {

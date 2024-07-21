@@ -12,11 +12,22 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Класс для создания спецификация для сделок на основе фильтра.
+ *
+ * @author ChiniakinD
+ */
 public final class DealServiceSpecification {
 
     private DealServiceSpecification() {
     }
 
+    /**
+     * Создает спецификацию для фильтрации сделок на основе переданного фильтра.
+     *
+     * @param filter фильтр для поиска сделок.
+     * @return спецификация для сделок.
+     */
     public static Specification<Deal> buildSpecification(DealFilter filter) {
         return Specification.where(byId(filter.getId()))
                 .and(byDescription(filter.getDescription()))

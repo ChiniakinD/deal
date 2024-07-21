@@ -9,6 +9,11 @@ import lombok.experimental.Accessors;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Модель контрагента сделки для модели сделки.
+ *
+ * @author ChiniakinD
+ */
 @Getter
 @Setter
 @Accessors(chain = true)

@@ -10,6 +10,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Модель фильтра для сделок.
+ *
+ * @author ChiniakinD
+ */
 @Getter
 @Setter
 @NoArgsConstructor

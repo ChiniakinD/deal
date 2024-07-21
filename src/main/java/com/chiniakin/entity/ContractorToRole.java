@@ -13,6 +13,9 @@ import lombok.experimental.Accessors;
 
 import java.util.UUID;
 
+/**
+ * @author ChiniakinD
+ */
 @Getter
 @Setter
 @Entity

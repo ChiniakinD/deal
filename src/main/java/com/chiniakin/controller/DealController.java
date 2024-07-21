@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
+/**
+ * Контроллер для управления сделками.
+ *
+ * @author ChiniakinD
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/deal")
@@ -25,21 +30,43 @@ public class DealController {
 
     private final DealService dealService;
 
+    /**
+     * Получает сделку по id.
+     *
+     * @param id идентификатор сделки.
+     * @return модель сделки
+     */
     @GetMapping("/{id}")
     public DealModel getDealById(@PathVariable UUID id) {
         return dealService.getDealById(id);
     }
 
+    /**
+     * Меняет статус сделки.
+     *
+     * @param changeStatusModel модель для изменения статуса сделки.
+     */
     @PatchMapping("/change/status")
     public void changeDealStatus(@RequestBody ChangeStatusModel changeStatusModel) {
         dealService.changeStatus(changeStatusModel);
     }
 
+    /**
+     * Сохраняет новую или обновляет существующую сделку.
+     *
+     * @param saveDealModel модель для сохранения новой или обновления существующей сделки.
+     */
     @PutMapping("/save")
     public void saveDeal(@RequestBody SaveDealModel saveDealModel) {
         dealService.saveDeal(saveDealModel);
     }
 
+    /**
+     * Получает сделки согласно фильтрам.
+     *
+     * @param dealFilter модель фильтра для сделок.
+     * @return страница с моделями сделок.
+     */
     @PostMapping("/search")
     public Page<DealModel> searchDeals(@RequestBody DealFilter dealFilter) {
         return dealService.getDealsByFilters(dealFilter);

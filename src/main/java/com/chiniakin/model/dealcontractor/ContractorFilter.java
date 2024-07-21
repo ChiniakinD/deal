@@ -4,6 +4,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Модель контрагента сделки для фильтрации сделки.
+ *
+ * @author ChiniakinD
+ */
 @Getter
 @Setter
 @RequiredArgsConstructor

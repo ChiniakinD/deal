@@ -27,6 +27,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * Реализация сервиса для работы со сделками.
+ *
+ * @author ChiniakinD
+ */
 @Service
 @RequiredArgsConstructor
 public class DealServiceImpl implements DealService {

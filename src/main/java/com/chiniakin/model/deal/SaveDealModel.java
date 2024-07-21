@@ -3,12 +3,16 @@ package com.chiniakin.model.deal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * Модель сделки для сохранения новой/обновления существующей.
+ *
+ * @author ChiniakinD
+ */
 @Getter
 @Setter
 public class SaveDealModel {

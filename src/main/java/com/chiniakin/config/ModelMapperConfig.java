@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Primary;
 
 /**
  * Конфигурационный класс для настройки ModelMapper.
+ *
  * @author ChiniakinD
  */
 @Configuration
@@ -21,6 +22,7 @@ public class ModelMapperConfig {
 
     /**
      * Создает modelMapper для слияния объектов, который соединяет только не null поля.
+     *
      * @return modelMapper.
      */
     @Bean("mergeMapper")

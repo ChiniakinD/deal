@@ -6,6 +6,11 @@ import lombok.Setter;
 
 import java.util.UUID;
 
+/**
+ * Модель контрагента сделки для сохранения новой/обновления существующей.
+ *
+ * @author ChiniakinD
+ */
 @Getter
 @Setter
 public class SaveDealContractorModel {

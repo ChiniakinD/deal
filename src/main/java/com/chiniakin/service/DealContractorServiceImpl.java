@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+/**
+ * Реализация сервиса для работы с контрагентами сделки.
+ *
+ * @author ChiniakinD
+ */
 @Service
 @RequiredArgsConstructor
 public class DealContractorServiceImpl implements DealContractorService {
