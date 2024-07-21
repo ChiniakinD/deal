@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
@@ -36,11 +37,11 @@ public class ContractorToRoleController {
     /**
      * Выполняет логическое удаление роли у существующего контрагента сделки.
      *
-     * @param contractorId идентификатор контрагента сделки.
+     * @param id идентификатор контрагента сделки.
      */
-    @DeleteMapping("/delete")
-    public void deleteContractorToRole(@RequestBody UUID contractorId) {
-        contractorToRoleService.delete(contractorId);
+    @DeleteMapping("/delete/{id}")
+    public void deleteContractorToRole(@PathVariable UUID id) {
+        contractorToRoleService.delete(id);
 
     }
 

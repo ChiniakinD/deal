@@ -211,7 +211,6 @@ databaseChangeLog:
                   defaultValueBoolean: false
                   constraints:
                     nullable: false
-                    unique: true
               - column:
                   name: create_date
                   type: timestamp

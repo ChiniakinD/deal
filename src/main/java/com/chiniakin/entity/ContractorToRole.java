@@ -25,7 +25,7 @@ import java.util.UUID;
 public class ContractorToRole {
 
     @Id
-    @JoinColumn(name = "contractor_id")
+    @Column(name = "contractor_id")
     private UUID id;
 
     @ManyToOne

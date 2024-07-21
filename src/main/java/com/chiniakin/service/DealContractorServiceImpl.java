@@ -27,7 +27,7 @@ public class DealContractorServiceImpl implements DealContractorService {
     public void saveDealContractor(SaveDealContractorModel saveDealContractorModel) {
         DealContractor dealContractor = dealContractorRepository.findById(saveDealContractorModel.getId()).orElse(new DealContractor());
         dealContractorMapper.merge(dealContractor, saveDealContractorModel);
-        dealContractor.setDeal(dealRepository.findById(saveDealContractorModel.getId()).orElseThrow(() -> new RuntimeException("Не найден статус в базе данных")));
+        dealContractor.setDeal(dealRepository.findById(saveDealContractorModel.getDealId()).orElseThrow(() -> new RuntimeException("Сделка в базе данных не найдена")));
         dealContractorRepository.save(dealContractor);
     }
 
