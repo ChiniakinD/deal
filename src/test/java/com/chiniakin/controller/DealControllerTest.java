@@ -92,10 +92,10 @@ public class DealControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/deal/search")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                                  {                            
+                                  {
                                         "page": 1,
                                         "size": 3,
-                                        "inn": "123"                            
+                                        "inn": "123"
                                   }
 
                                 """
@@ -197,7 +197,7 @@ public class DealControllerTest {
                               },
                               "numberOfElements": 2,
                               "empty": false
-                          }  
+                          }
                         """)
                 );
     }

@@ -19,7 +19,7 @@ public interface DealService {
      * Получает сделку по id.
      *
      * @param id идентификатор сделки.
-     * @return
+     * @return DealModel модель сделки.
      */
     DealModel getDealById(UUID id);
 

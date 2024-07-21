@@ -33,7 +33,7 @@ public class DealContractorControllerTest {
                                            "name": "123",
                                            "main": "true"
                                          }
-                                         """
+                                        """
                         ))
                 .andExpect(status().isOk());
     }
