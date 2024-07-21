@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
+import ru.chiniakin.aspect.AuditLog;
 
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ public class DealContractorController {
      *
      * @param saveDealContractorModel модель для сохранения/обновления контрагента сделки.
      */
+    @AuditLog
     @PutMapping("/save")
     public void saveDealContractor(@RequestBody SaveDealContractorModel saveDealContractorModel) {
         dealContractorService.saveDealContractor(saveDealContractorModel);
@@ -39,6 +41,7 @@ public class DealContractorController {
      *
      * @param id идентификатор котрагента сделки.
      */
+    @AuditLog
     @DeleteMapping("/delete/{id}")
     public void deleteDealContractorById(@PathVariable UUID id) {
         dealContractorService.deleteDealContractorById(id);

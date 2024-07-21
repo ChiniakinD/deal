@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
+import ru.chiniakin.aspect.AuditLog;
 
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ public class ContractorToRoleController {
      *
      * @param contractorToRoleModel Модель контрагента сделки и его роли.
      */
+    @AuditLog
     @PostMapping("/add")
     public void addContractorToRole(@RequestBody ContractorToRoleModel contractorToRoleModel) {
         contractorToRoleService.addRole(contractorToRoleModel);
@@ -39,6 +41,7 @@ public class ContractorToRoleController {
      *
      * @param id идентификатор контрагента сделки.
      */
+    @AuditLog
     @DeleteMapping("/delete/{id}")
     public void deleteContractorToRole(@PathVariable UUID id) {
         contractorToRoleService.delete(id);

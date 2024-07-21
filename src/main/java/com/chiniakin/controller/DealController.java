@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
+import ru.chiniakin.aspect.AuditLog;
 
 import java.util.UUID;
 
@@ -36,6 +37,7 @@ public class DealController {
      * @param id идентификатор сделки.
      * @return модель сделки
      */
+    @AuditLog
     @GetMapping("/{id}")
     public DealModel getDealById(@PathVariable UUID id) {
         return dealService.getDealById(id);
@@ -46,6 +48,7 @@ public class DealController {
      *
      * @param changeStatusModel модель для изменения статуса сделки.
      */
+    @AuditLog
     @PatchMapping("/change/status")
     public void changeDealStatus(@RequestBody ChangeStatusModel changeStatusModel) {
         dealService.changeStatus(changeStatusModel);
@@ -56,6 +59,7 @@ public class DealController {
      *
      * @param saveDealModel модель для сохранения новой или обновления существующей сделки.
      */
+    @AuditLog
     @PutMapping("/save")
     public void saveDeal(@RequestBody SaveDealModel saveDealModel) {
         dealService.saveDeal(saveDealModel);
@@ -67,6 +71,7 @@ public class DealController {
      * @param dealFilter модель фильтра для сделок.
      * @return страница с моделями сделок.
      */
+    @AuditLog
     @PostMapping("/search")
     public Page<DealModel> searchDeals(@RequestBody DealFilter dealFilter) {
         return dealService.getDealsByFilters(dealFilter);
