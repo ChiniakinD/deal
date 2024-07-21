@@ -1,17 +1,14 @@
 package com.chiniakin.mapper;
 
 import com.chiniakin.entity.Deal;
-import com.chiniakin.entity.DealStatus;
 
+import com.chiniakin.model.deal.DealContractorResponse;
 import com.chiniakin.model.deal.DealModel;
 import com.chiniakin.model.deal.DealStatusResponse;
 import com.chiniakin.model.deal.DealTypeResponse;
 import com.chiniakin.model.deal.SaveDealModel;
-import com.chiniakin.model.deal.DealContractorResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -21,10 +18,6 @@ import java.time.LocalDate;
 public class DealMapper {
 
     private final ModelMapper mapper;
-    private final DealContractorMapper dealContractorMapper;
-    @Autowired
-    @Qualifier("mergeMapper")
-    private final ModelMapper mergeMapper;
 
     public DealModel toModel(Deal deal) {
         return mapper.map(deal, DealModel.class)
@@ -43,13 +36,6 @@ public class DealMapper {
                 .setAvailabilityDate(saveDealModel.getAvailabilityDate())
                 .setSum(saveDealModel.getSum())
                 .setCloseDt(saveDealModel.getCloseDt());
-    }
-
-    private DealStatus createDefaultDealStatusResponse() {
-        DealStatus dealStatus = new DealStatus();
-        dealStatus.setId("DRAFT");
-        dealStatus.setName("Черновик");
-        return dealStatus;
     }
 
 }

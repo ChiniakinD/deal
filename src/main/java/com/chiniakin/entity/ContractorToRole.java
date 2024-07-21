@@ -1,10 +1,11 @@
 package com.chiniakin.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,10 +18,11 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @Accessors(chain = true)
+@Table(name = "contractor_to_role")
 public class ContractorToRole {
 
     @Id
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "contractor_id")
     private UUID id;
 
     @ManyToOne

@@ -1,10 +1,9 @@
 package com.chiniakin.model.contractortorole;
 
 import com.chiniakin.entity.ContractorRole;
-
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,11 +18,11 @@ import java.util.UUID;
 public class ContractorToRoleModel {
 
     @Id
-    @JoinColumn(name = "id")
+    @JsonProperty("id")
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "role_id")
+    @JsonProperty("role_id")
     private ContractorRole roleId;
 
 }
