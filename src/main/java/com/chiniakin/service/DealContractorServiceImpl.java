@@ -1,6 +1,7 @@
 package com.chiniakin.service;
 
 import com.chiniakin.entity.DealContractor;
+import com.chiniakin.exception.DealNotFoundException;
 import com.chiniakin.exception.SecondMainDealContractorException;
 import com.chiniakin.mapper.DealContractorMapper;
 import com.chiniakin.model.dealcontractor.SaveDealContractorModel;
@@ -33,7 +34,8 @@ public class DealContractorServiceImpl implements DealContractorService {
             throw new SecondMainDealContractorException("Невозможно добавить более 1 главного контрагента на 1 сделку.");
         }
         dealContractorMapper.merge(dealContractor, saveDealContractorModel);
-        dealContractor.setDeal(dealRepository.findById(saveDealContractorModel.getDealId()).orElseThrow(() -> new RuntimeException("Сделка в базе данных не найдена")));
+        dealContractor.setDeal(dealRepository.findById(saveDealContractorModel.getDealId()).orElseThrow(()
+                -> new DealNotFoundException("Сделка с id " + saveDealContractorModel.getDealId() + "не найдена.")));
         dealContractorRepository.save(dealContractor);
     }
 

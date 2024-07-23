@@ -2,6 +2,10 @@ package com.chiniakin.controller;
 
 import com.chiniakin.model.dealcontractor.SaveDealContractorModel;
 import com.chiniakin.service.interfaces.DealContractorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +25,7 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/deal-contractor")
+@Tag(name = "DealContractorController", description = "Контроллер для работы со контрагентами сделок.")
 public class DealContractorController {
 
     private DealContractorService dealContractorService;
@@ -30,6 +35,12 @@ public class DealContractorController {
      *
      * @param saveDealContractorModel модель для сохранения/обновления контрагента сделки.
      */
+    @Operation(summary = "Сохранение контрагента сделки", description = "Добавляет нового контрагента сделки или обновляет уже существующего")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Контрагента сделки добавлен или обновлен"),
+            @ApiResponse(responseCode = "404", description = "Невозможно добавить более 1 главного контрагента на 1 сделку.")
+
+    })
     @AuditLog
     @PutMapping("/save")
     public void saveDealContractor(@RequestBody SaveDealContractorModel saveDealContractorModel) {
@@ -41,6 +52,10 @@ public class DealContractorController {
      *
      * @param id идентификатор котрагента сделки.
      */
+    @Operation(summary = "Логическое удаление контрагента сделки", description = "Выполняет удаление контрагента сделки по id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Контрагента сделки успешно удален")
+    })
     @AuditLog
     @DeleteMapping("/delete/{id}")
     public void deleteDealContractorById(@PathVariable UUID id) {
