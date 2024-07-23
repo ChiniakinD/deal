@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,5 +37,18 @@ public interface OutboxRepository extends JpaRepository<OutboxMessage, UUID> {
     @Transactional
     @Query(value = "update outbox_messages set status='SUCCESS' where id=:uuid", nativeQuery = true)
     void updateStatus(@Param("uuid") UUID uuid);
+
+    /**
+     * Получает все сообщения со статусом SUCCESS для указанного контрагента,
+     * которые были созданы после указанной даты.
+     *
+     * @param contractorId идентификатор контрагента.
+     * @param creationTime дата создания сообщения с ошибкой.
+     * @return список сообщений со статусом SUCCESS.
+     */
+    @Query("select o from OutboxMessage o where o.contractorId = :contractorId and o.status = 'SUCCESS' and o.creationTime > :creationTime")
+    List<OutboxMessage> findSuccessMessagesAfter(
+            @Param("contractorId") String contractorId,
+            @Param("creationTime") LocalDateTime creationTime);
 
 }
