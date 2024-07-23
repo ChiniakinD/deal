@@ -82,11 +82,13 @@ public class DealServiceImpl implements DealService {
     }
 
     private void sendMessageToContractor(ChangeStatusModel changeStatusModel, DealContractor mainContractor, Deal deal) {
-        if (dealContractorRepository.checkMain(mainContractor.getContractorId()) == 1) {
+        if (dealContractorRepository.checkMain(mainContractor.getContractorId()) <= 1) {
             if (deal.getStatus().getId().equals("DRAFT") && changeStatusModel.getDealStatusId().equals("ACTIVE")) {
                 httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.TRUE);
             } else if (deal.getStatus().getId().equals("ACTIVE") && changeStatusModel.getDealStatusId().equals("CLOSED")) {
                 httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.FALSE);
+            } else if (deal.getStatus().getId().equals("CLOSED") && changeStatusModel.getDealStatusId().equals("ACTIVE")) {
+                httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.TRUE);
             }
         }
     }
