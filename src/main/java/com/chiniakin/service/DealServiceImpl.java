@@ -1,6 +1,7 @@
 package com.chiniakin.service;
 
 import com.chiniakin.entity.Deal;
+import com.chiniakin.entity.DealContractor;
 import com.chiniakin.entity.DealStatus;
 import com.chiniakin.mapper.DealContractorMapper;
 import com.chiniakin.mapper.DealMapper;
@@ -15,6 +16,7 @@ import com.chiniakin.repository.DealContractorRepository;
 import com.chiniakin.repository.DealRepository;
 import com.chiniakin.repository.DealStatusRepository;
 import com.chiniakin.service.interfaces.DealService;
+import com.chiniakin.service.interfaces.HttpClientService;
 import com.chiniakin.specification.DealServiceSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,6 +44,7 @@ public class DealServiceImpl implements DealService {
     private final DealContractorRepository dealContractorRepository;
     private final DealContractorMapper dealContractorMapper;
     private final ContractorRoleRepository contractorRoleRepository;
+    private final HttpClientService httpClientService;
 
     public DealModel getDealById(UUID id) {
         Deal deal = dealRepository.findByIdWithDetailsOrThrow(id);
@@ -50,13 +53,17 @@ public class DealServiceImpl implements DealService {
                 .map(x -> dealContractorMapper.mapDealContractor(x, contractorRoleRepository.findAllRolesByDealId(x.getId())))
                 .collect(Collectors.toList());
         dealModel.setContractors(collect);
+
         return dealModel;
     }
 
     public void changeStatus(ChangeStatusModel changeStatusModel) {
         Deal deal = dealRepository.findByIdWithDetailsOrThrow(changeStatusModel.getDealId());
+        DealContractor mainContractor = dealContractorRepository.findMainContractor(changeStatusModel.getDealId());
+        sendMessageToContractor(changeStatusModel, mainContractor, deal);
+
         DealStatus dealStatus = dealStatusRepository.findDealStatusByIdOrThrow(changeStatusModel.getDealStatusId());
-        deal.setStatus(dealStatus);
+
         dealRepository.changeStatusDeal(changeStatusModel.getDealId(), dealStatus);
     }
 
@@ -72,6 +79,16 @@ public class DealServiceImpl implements DealService {
         Page<Deal> deals = dealRepository.findAll(DealServiceSpecification.buildSpecification(dealFilter), pageable);
         List<DealModel> collect = deals.getContent().stream().map(dealMapper::toModel).collect(Collectors.toList());
         return new PageImpl<>(collect, deals.getPageable(), deals.getTotalElements());
+    }
+
+    private void sendMessageToContractor(ChangeStatusModel changeStatusModel, DealContractor mainContractor, Deal deal) {
+        if (dealContractorRepository.checkMain(mainContractor.getContractorId()) == 1) {
+            if (deal.getStatus().getId().equals("DRAFT") && changeStatusModel.getDealStatusId().equals("ACTIVE")) {
+                httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.TRUE);
+            } else if (deal.getStatus().getId().equals("ACTIVE") && changeStatusModel.getDealStatusId().equals("CLOSED")) {
+                httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.FALSE);
+            }
+        }
     }
 
 }

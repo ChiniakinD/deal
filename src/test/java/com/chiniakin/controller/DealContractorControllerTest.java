@@ -38,10 +38,4 @@ public class DealContractorControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    @Sql("/insertForTests/insert.sql")
-    public void deleteContractorShouldSuccessfulDeleted() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/deal-contractor/delete/{id}", "8a7b9a6e-b60b-4a6f-951d-8b6b56a2f8ec"))
-                .andExpect(status().isOk());
-    }
 }

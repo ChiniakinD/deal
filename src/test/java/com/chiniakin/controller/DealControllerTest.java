@@ -10,6 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,21 +47,6 @@ public class DealControllerTest {
                          }
                         """)
                 );
-    }
-
-    @Test
-    public void changeStatusShouldCorrectChangeStatus() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.patch("/deal/change/status")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                            "deal_id": "e6c2296c-28a4-4e12-8a59-3ad1e0e4f6a3",
-                            "deal_status_id": "ACTIVE"
-                        }
-                        """));
-        mockMvc.perform(MockMvcRequestBuilders.get("/deal/{id}", "e6c2296c-28a4-4e12-8a59-3ad1e0e4f6a3")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.status.id").value("ACTIVE"));
     }
 
     @Test

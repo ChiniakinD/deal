@@ -2,7 +2,8 @@ audit-log:
   log-save: all # способ сохранения логов: `console`, `file` или `all` (по умолчанию `all`)
   file-path: logs/spring-boot-application.log # путь к файлу для сохранения логов
   enable: true # включить или отключить логирование
-
+server:
+  port: 8081
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
@@ -13,3 +14,6 @@ spring:
   liquibase:
     change-log: classpath:liquibase/db.changelog.yml
     enabled: true
+contractor:
+  url: http://localhost:8080/contractors/
+  cron: 0 * * * * ?

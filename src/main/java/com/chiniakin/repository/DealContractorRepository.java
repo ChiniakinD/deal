@@ -43,9 +43,28 @@ public interface DealContractorRepository extends JpaRepository<DealContractor, 
      *
      * @param id идентификатор контрагента сделки.
      */
+
     @Transactional
     @Modifying
     @Query("update DealContractor dc set dc.isActive=false where dc.id=:id")
     void logicDelete(@Param("id") UUID id);
+
+    /**
+     * Получает главного контрагента сделки.
+     *
+     * @param dealId идентификатор сделки.
+     * @return главный контрагент сделки.
+     */
+    @Query(value = "select * from deal_contractor where deal_id=:dealId and main is true limit 1", nativeQuery = true)
+    DealContractor findMainContractor(@Param("dealId") UUID dealId);
+
+    /**
+     * Считает количество сделок, где контрагент является главным.
+     *
+     * @param id идентификатор контрагента.
+     * @return количество сделок, где контрагент является главным.
+     */
+    @Query(value = "select count(*) from deal_contractor d where d.contractor_id=:contractorId and d.main is true", nativeQuery = true)
+    int checkMain(@Param("contractorId") String id);
 
 }
