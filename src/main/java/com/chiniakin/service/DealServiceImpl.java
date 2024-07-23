@@ -50,7 +50,7 @@ public class DealServiceImpl implements DealService {
         Deal deal = dealRepository.findByIdWithDetailsOrThrow(id);
         DealModel dealModel = dealMapper.toModel(deal);
         List<DealContractorResponse> collect = dealContractorRepository.findAllByDealId(id).stream()
-                .map(x -> dealContractorMapper.mapDealContractor(x, contractorRoleRepository.findAllRolesByDealId(x.getId())))
+                .map(x -> dealContractorMapper.mapDealContractor(x, contractorRoleRepository.findAllRolesByDealContractorId(x.getId())))
                 .collect(Collectors.toList());
         dealModel.setContractors(collect);
 

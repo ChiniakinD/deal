@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Component
 @RequiredArgsConstructor
-public class ScheduledService {
+public class ScheduleService {
 
     private final OutboxRepository outboxRepository;
     private final HttpClientService httpClientService;

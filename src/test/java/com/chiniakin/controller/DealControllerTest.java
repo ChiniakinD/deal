@@ -9,9 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Testcontainers
 @AutoConfigureMockMvc
 @SpringBootTest(classes = TestBeans.class)
 public class DealControllerTest {

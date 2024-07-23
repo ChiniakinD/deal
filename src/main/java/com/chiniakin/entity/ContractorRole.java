@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  * @author ChiniakinD
@@ -18,6 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "contractor_role")
 @Schema(name = "")
+@Accessors(chain = true)
 public class ContractorRole {
 
     @Id
