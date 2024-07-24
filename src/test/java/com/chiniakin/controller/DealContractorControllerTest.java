@@ -23,7 +23,7 @@ public class DealContractorControllerTest {
 
     @Test
     @Sql("/insertForTests/insert.sql")
-    public void saveContractorShouldSuccessfulSaved() throws Exception {
+    void saveContractorShouldSuccessfulSaved() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/deal-contractor/save")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(

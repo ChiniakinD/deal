@@ -10,6 +10,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Testcontainers
@@ -21,7 +22,7 @@ public class ContractorToRoleControllerTest {
     MockMvc mockMvc;
 
     @Test
-    public void addContractorToRoleShouldBeSuccessfulAdded() throws Exception {
+    void addContractorToRoleShouldBeSuccessfulAdded() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/contractor-to-role/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -40,7 +41,7 @@ public class ContractorToRoleControllerTest {
 
     @Test
     @Sql("/insertForTests/insert.sql")
-    public void deleteContractorToRoleShouldBeSuccessfulDeleted() throws Exception {
+    void deleteContractorToRoleShouldBeSuccessfulDeleted() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/contractor-to-role/delete/{id}", "6e6a086f-5e74-49b4-b82b-99135aa4b555"))
                 .andExpect(status().isOk());
     }

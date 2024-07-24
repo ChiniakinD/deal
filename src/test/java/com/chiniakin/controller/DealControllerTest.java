@@ -24,7 +24,7 @@ public class DealControllerTest {
 
     @Test
     @Sql("/insertForTests/insert.sql")
-    public void getDealByIdShouldReturnCorrectDealModel() throws Exception {
+    void getDealByIdShouldReturnCorrectDealModel() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/deal/{id}", "c3d5b726-92e8-4bb4-9826-66f72fce1c4d"))
                 .andExpect(content().json("""
                         {
@@ -51,7 +51,7 @@ public class DealControllerTest {
     }
 
     @Test
-    public void saveDealModelShouldBeSuccessfulSaved() throws Exception {
+    void saveDealModelShouldBeSuccessfulSaved() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/deal/save")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -75,7 +75,7 @@ public class DealControllerTest {
 
     @Test
     @Sql("/insertForTests/insert.sql")
-    public void searchDealShouldReturnCorrectData() throws Exception {
+    void searchDealShouldReturnCorrectData() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/deal/search")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
