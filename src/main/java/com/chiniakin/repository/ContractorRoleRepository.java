@@ -18,13 +18,13 @@ import java.util.UUID;
 public interface ContractorRoleRepository extends JpaRepository<ContractorRole, String> {
 
     /**
-     * Получает все роли, связанные со сделкой.
+     * Получает все роли, связанные с конкретным контрагентом сделки.
      *
-     * @param dealId идентификатор сделки.
-     * @return список ролей контрагентов сделки.
+     * @param contractorId идентификатор контрагента сделки.
+     * @return список ролей контрагента сделки.
      */
     @Query(value = "select * from contractor_role cr " +
-            "where cr.id = (select ctr.role_id from contractor_to_role ctr where ctr.contractor_id = :dealId)", nativeQuery = true)
-    List<ContractorRole> findAllRolesByDealContractorId(@Param("dealId") UUID dealId);
+            "where cr.id in (select ctr.role_id from contractor_to_role ctr where ctr.contractor_id = :contractorId)", nativeQuery = true)
+    List<ContractorRole> findAllRolesByDealContractorId(@Param("contractorId") UUID contractorId);
 
 }
