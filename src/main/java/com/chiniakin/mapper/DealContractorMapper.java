@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Класс для преобразования контрагентов сделок и их ролей.
@@ -45,8 +44,9 @@ public class DealContractorMapper {
     private List<ContractorRoleModel> mapRolesToDto(List<ContractorRole> roles) {
         return roles != null
                 ? roles.stream()
-                .map(role -> mapper.map(role, ContractorRoleModel.class))
-                .collect(Collectors.toList()) : new ArrayList<>();
+                    .map(role -> mapper.map(role, ContractorRoleModel.class))
+                    .toList()
+                : new ArrayList<>();
     }
 
     /**
