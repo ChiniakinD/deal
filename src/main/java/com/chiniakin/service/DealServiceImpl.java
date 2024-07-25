@@ -3,6 +3,7 @@ package com.chiniakin.service;
 import com.chiniakin.entity.Deal;
 import com.chiniakin.entity.DealContractor;
 import com.chiniakin.entity.DealStatus;
+import com.chiniakin.enums.DealStatusEnum;
 import com.chiniakin.mapper.DealContractorMapper;
 import com.chiniakin.mapper.DealMapper;
 
@@ -83,11 +84,14 @@ public class DealServiceImpl implements DealService {
 
     private void sendMessageToContractor(ChangeStatusModel changeStatusModel, DealContractor mainContractor, Deal deal) {
         if (dealContractorRepository.checkMain(mainContractor.getContractorId()) <= 1) {
-            if (deal.getStatus().getId().equals("DRAFT") && changeStatusModel.getDealStatusId().equals("ACTIVE")) {
+            if ((deal.getStatus().getId().equals(DealStatusEnum.getDealStatusEnumById("DRAFT")) &&
+                    changeStatusModel.getDealStatusId().equals(DealStatusEnum.getDealStatusEnumById("DRAFT")))) {
                 httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.TRUE);
-            } else if (deal.getStatus().getId().equals("ACTIVE") && changeStatusModel.getDealStatusId().equals("CLOSED")) {
+            } else if (deal.getStatus().getId().equals(DealStatusEnum.getDealStatusEnumById("ACTIVE")) &&
+                    changeStatusModel.getDealStatusId().equals(DealStatusEnum.getDealStatusEnumById("CLOSED"))) {
                 httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.FALSE);
-            } else if (deal.getStatus().getId().equals("CLOSED") && changeStatusModel.getDealStatusId().equals("ACTIVE")) {
+            } else if (deal.getStatus().getId().equals(DealStatusEnum.getDealStatusEnumById("CLOSED")) &&
+                    changeStatusModel.getDealStatusId().equals(DealStatusEnum.getDealStatusEnumById("ACTIVE"))) {
                 httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.TRUE);
             }
         }
