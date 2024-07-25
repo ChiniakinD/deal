@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.List;
 import java.util.UUID;
@@ -25,6 +26,7 @@ class ContractorRoleRepositoryTest {
 
     }
     @Test
+    @Sql("/insertForTests/insert.sql")
     void shouldReturnAllRolesForDealContractorId() {
         List<ContractorRole> all = contractorRoleRepository.findAllRolesByDealContractorId(UUID.fromString("8a7b9a6e-b60b-4a6f-951d-8b6b56a2f8ec"));
         assertEquals(1, all.size());
