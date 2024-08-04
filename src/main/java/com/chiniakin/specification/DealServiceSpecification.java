@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -28,14 +29,14 @@ public final class DealServiceSpecification {
      * @param filter фильтр для поиска сделок.
      * @return спецификация для сделок.
      */
-    public static Specification<Deal> buildSpecification(DealFilter filter) {
+    public static Specification<Deal> buildSpecification(DealFilter filter, Set<String> roles) {
         return Specification.where(byId(filter.getId()))
                 .and(byDescription(filter.getDescription()))
                 .and(byActive())
                 .and(byAgreementNumber(filter.getAgreementNumber()))
                 .and(byAgreementDate(filter.getAgreementDateFrom(), filter.getAgreementDateTo()))
                 .and(byAvailabilityDate(filter.getAvailabilityDateFrom(), filter.getAvailabilityDateTo()))
-                .and(byType(filter.getDealTypeResponses()))
+                .and(byType(filter.getDealTypeResponses(), roles))
                 .and(byStatus(filter.getDealStatusResponses()))
                 .and(byCloseDate(filter.getCloseDtFrom(), filter.getCloseDtTo()))
                 .and(byContractorId(filter.getContractorId()))
@@ -119,12 +120,44 @@ public final class DealServiceSpecification {
         };
     }
 
-    private static Specification<Deal> byType(List<DealTypeResponse> types) {
+    private static Specification<Deal> byType(List<DealTypeResponse> types, Set<String> roles) {
         return (root, query, criteriaBuilder) -> {
             if (types == null || types.isEmpty()) {
+                if (!roles.contains("DEAL_SUPERUSER") || !roles.contains("SUPERUSER")) {
+                    if (roles.contains("OVERDRAFT_USER")
+                            && roles.contains("CREDIT_USER")) {
+                        return root.get("type").get("id").in(List.of("OVERDRAFT", "CREDIT"));
+                    }
+                    if (roles.contains("OVERDRAFT_USER")) {
+                        return criteriaBuilder.equal(root.get("type").get("id"), "OVERDRAFT");
+                    }
+                    if (roles.contains("CREDIT_USER")) {
+                        return criteriaBuilder.equal(root.get("type").get("id"), "CREDIT");
+                    }
+                }
                 return criteriaBuilder.conjunction();
             }
-            return root.get("type").in(types.stream().map(DealTypeResponse::getId).toList());
+            if (!roles.contains("DEAL_SUPERUSER") || !roles.contains("SUPERUSER")) {
+                if (roles.contains("OVERDRAFT_USER") && roles.contains("CREDIT_USER")) {
+                    return criteriaBuilder.and(
+                            root.get("type").get("id").in(List.of("OVERDRAFT", "CREDIT"),
+                                    root.get("type").get("id").in(types.stream().map(DealTypeResponse::getId).toList())
+                            ));
+                }
+                if (roles.contains("OVERDRAFT_USER")) {
+                    return criteriaBuilder.and(
+                            criteriaBuilder.equal(root.get("type").get("id"), "OVERDRAFT"),
+                            root.get("type").get("id").in(types.stream().map(DealTypeResponse::getId).toList())
+                    );
+                }
+                if (roles.contains("CREDIT_USER")) {
+                    return criteriaBuilder.and(
+                            criteriaBuilder.equal(root.get("type").get("id"), "CREDIT"),
+                            root.get("type").get("id").in(types.stream().map(DealTypeResponse::getId).toList())
+                    );
+                }
+            }
+            return root.get("type").get("id").in(types.stream().map(DealTypeResponse::getId).toList());
         };
     }
 

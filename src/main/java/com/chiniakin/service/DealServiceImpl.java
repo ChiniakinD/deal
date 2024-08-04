@@ -19,13 +19,13 @@ import com.chiniakin.repository.DealStatusRepository;
 import com.chiniakin.service.interfaces.DealService;
 import com.chiniakin.service.interfaces.HttpClientService;
 import com.chiniakin.specification.DealServiceSpecification;
+import com.chiniakin.util.auth.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -77,7 +77,7 @@ public class DealServiceImpl implements DealService {
 
     public Page<DealModel> getDealsByFilters(DealFilter dealFilter) {
         Pageable pageable = PageRequest.of(dealFilter.getPage() - 1, dealFilter.getSize());
-        Page<Deal> deals = dealRepository.findAll(DealServiceSpecification.buildSpecification(dealFilter), pageable);
+        Page<Deal> deals = dealRepository.findAll(DealServiceSpecification.buildSpecification(dealFilter, SecurityUtil.getUserRoles()), pageable);
         List<DealModel> collect = deals.getContent().stream().map(dealMapper::toModel).collect(Collectors.toList());
         return new PageImpl<>(collect, deals.getPageable(), deals.getTotalElements());
     }
