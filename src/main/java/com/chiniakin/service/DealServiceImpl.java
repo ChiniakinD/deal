@@ -25,6 +25,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
@@ -77,9 +78,12 @@ public class DealServiceImpl implements DealService {
 
     public Page<DealModel> getDealsByFilters(DealFilter dealFilter) {
         Pageable pageable = PageRequest.of(dealFilter.getPage() - 1, dealFilter.getSize());
-        Page<Deal> deals = dealRepository.findAll(DealServiceSpecification.buildSpecification(dealFilter, SecurityUtil.getUserRoles()), pageable);
-        List<DealModel> collect = deals.getContent().stream().map(dealMapper::toModel).collect(Collectors.toList());
-        return new PageImpl<>(collect, deals.getPageable(), deals.getTotalElements());
+        Specification<Deal> specification = DealServiceSpecification.buildSpecification(dealFilter, SecurityUtil.getUserRoles());
+        Page<Deal> deals = dealRepository.findAll(specification, pageable);
+        List<DealModel> dealModels = deals.getContent().stream()
+                .map(dealMapper::toModel)
+                .collect(Collectors.toList());
+        return new PageImpl<>(dealModels, deals.getPageable(), deals.getTotalElements());
     }
 
     private void sendMessageToContractor(ChangeStatusModel changeStatusModel, DealContractor mainContractor, Deal deal) {
