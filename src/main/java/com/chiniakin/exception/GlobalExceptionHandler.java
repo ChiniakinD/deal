@@ -24,4 +24,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
+    /**
+     * Обрабатывет исключение {@link DealNotFoundException} .
+     *
+     * @param e исключение {@link DealNotFoundException} .
+     * @return ответ с сообщением об ошибке и код статуса 404.
+     */
+    @ExceptionHandler(DealNotFoundException.class)
+    public ResponseEntity<String> dealNotFoundException(DealNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
 }
