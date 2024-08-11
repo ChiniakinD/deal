@@ -57,7 +57,8 @@ public class DealController {
     })
     @AuditLog
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).USER, T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER, T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
+    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).USER, T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER," +
+            " T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
     public DealModel getDealById(@PathVariable UUID id) {
         return dealService.getDealById(id);
     }
