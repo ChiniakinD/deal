@@ -52,11 +52,12 @@ public class DealController {
                             @Content(
                                     schema = @Schema(implementation = DealModel.class)
                             )
-                    })
+                    }),
+            @ApiResponse(responseCode = "404", description = "Сделка с таким id не найдена")
     })
     @AuditLog
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('USER', 'DEAL_SUPERUSER', 'SUPERUSER')")
+    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).USER, T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER, T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
     public DealModel getDealById(@PathVariable UUID id) {
         return dealService.getDealById(id);
     }
@@ -73,7 +74,7 @@ public class DealController {
     })
     @AuditLog
     @PatchMapping("/change/status")
-    @PreAuthorize("hasAnyAuthority('DEAL_SUPERUSER', 'SUPERUSER')")
+    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER, T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
     public void changeDealStatus(@RequestBody ChangeStatusModel changeStatusModel) {
         dealService.changeStatus(changeStatusModel);
     }
@@ -89,7 +90,7 @@ public class DealController {
     })
     @AuditLog
     @PutMapping("/save")
-    @PreAuthorize("hasAnyAuthority('DEAL_SUPERUSER', 'SUPERUSER')")
+    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER, T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
     public void saveDeal(@RequestBody SaveDealModel saveDealModel) {
         dealService.saveDeal(saveDealModel);
     }
@@ -111,7 +112,8 @@ public class DealController {
     })
     @AuditLog
     @PostMapping("/search")
-    @PreAuthorize("hasAnyAuthority('CREDIT_USER', 'OVERDRAFT_USER', 'DEAL_SUPERUSER', 'SUPERUSER')")
+    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).CREDIT_USER, T(com.chiniakin.enums.auth.RoleEnum).OVERDRAFT_USER," +
+            "T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER, T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
     public Page<DealModel> searchDeals(@RequestBody DealFilter dealFilter) {
         return dealService.getDealsByFilters(dealFilter);
     }

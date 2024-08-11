@@ -42,7 +42,7 @@ public class ContractorToRoleController {
     })
     @AuditLog
     @PostMapping("/add")
-    @PreAuthorize("hasAnyAuthority('DEAL_SUPERUSER', 'SUPERUSER')")
+    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER, T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
     public void addContractorToRole(@RequestBody ContractorToRoleModel contractorToRoleModel) {
         contractorToRoleService.addRole(contractorToRoleModel);
     }
@@ -58,7 +58,7 @@ public class ContractorToRoleController {
     })
     @AuditLog
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAnyAuthority('DEAL_SUPERUSER', 'SUPERUSER')")
+    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER, T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
     public void deleteContractorToRole(@PathVariable UUID id) {
         contractorToRoleService.delete(id);
 

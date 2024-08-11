@@ -44,7 +44,7 @@ public class DealContractorController {
     })
     @AuditLog
     @PutMapping("/save")
-    @PreAuthorize("hasAnyAuthority('DEAL_SUPERUSER', 'SUPERUSER')")
+    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER, T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
     public void saveDealContractor(@RequestBody SaveDealContractorModel saveDealContractorModel) {
         dealContractorService.saveDealContractor(saveDealContractorModel);
     }
@@ -60,7 +60,7 @@ public class DealContractorController {
     })
     @AuditLog
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAnyAuthority('DEAL_SUPERUSER', 'SUPERUSER')")
+    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER, T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
     public void deleteDealContractorById(@PathVariable UUID id) {
         dealContractorService.deleteDealContractorById(id);
     }
