@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +44,7 @@ public class DealContractorController {
     })
     @AuditLog
     @PutMapping("/save")
+    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER, T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
     public void saveDealContractor(@RequestBody SaveDealContractorModel saveDealContractorModel) {
         dealContractorService.saveDealContractor(saveDealContractorModel);
     }
@@ -58,6 +60,7 @@ public class DealContractorController {
     })
     @AuditLog
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyAuthority(T(com.chiniakin.enums.auth.RoleEnum).DEAL_SUPERUSER, T(com.chiniakin.enums.auth.RoleEnum).SUPERUSER)")
     public void deleteDealContractorById(@PathVariable UUID id) {
         dealContractorService.deleteDealContractorById(id);
     }

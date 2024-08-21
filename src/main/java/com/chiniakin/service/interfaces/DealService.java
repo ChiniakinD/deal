@@ -5,7 +5,6 @@ import com.chiniakin.model.deal.DealFilter;
 import com.chiniakin.model.deal.DealModel;
 import com.chiniakin.model.deal.SaveDealModel;
 import org.springframework.data.domain.Page;
-
 import java.util.UUID;
 
 /**
