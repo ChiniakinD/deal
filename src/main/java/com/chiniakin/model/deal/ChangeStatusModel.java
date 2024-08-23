@@ -5,7 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -16,8 +18,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@Accessors(chain = true)
 @Schema(name = "Модель для изменения статуса сделки")
-public class ChangeStatusModel {
+public class ChangeStatusModel implements Serializable {
 
     @JsonProperty("deal_id")
     @Schema(description = "id сделки")

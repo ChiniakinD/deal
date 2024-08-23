@@ -5,10 +5,11 @@ import com.chiniakin.exception.DealNotFoundException;
 import com.chiniakin.exception.SecondMainDealContractorException;
 import com.chiniakin.mapper.DealContractorMapper;
 import com.chiniakin.model.dealcontractor.SaveDealContractorModel;
+import com.chiniakin.model.rabbit.RabbitTask;
 import com.chiniakin.repository.DealContractorRepository;
 import com.chiniakin.repository.DealRepository;
 import com.chiniakin.service.interfaces.DealContractorService;
-import com.chiniakin.service.interfaces.HttpClientService;
+import com.chiniakin.service.interfaces.RabbitMqService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class DealContractorServiceImpl implements DealContractorService {
     private final DealContractorRepository dealContractorRepository;
     private final DealContractorMapper dealContractorMapper;
     private final DealRepository dealRepository;
-    private final HttpClientService httpClientService;
+    private final RabbitMqService rabbitMqService;
 
     public void saveDealContractor(SaveDealContractorModel saveDealContractorModel) {
         DealContractor dealContractor = dealContractorRepository.findById(saveDealContractorModel.getId()).orElse(new DealContractor());
@@ -42,7 +43,7 @@ public class DealContractorServiceImpl implements DealContractorService {
     public void deleteDealContractorById(UUID dealContractorId) {
         DealContractor mainContractor = dealContractorRepository.findMainContractor(dealContractorId);
         if (dealContractorRepository.checkMain(mainContractor.getContractorId()) == 1) {
-            httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.FALSE);
+            rabbitMqService.sendMessage(RabbitTask.of(String.valueOf(dealContractorId), Boolean.FALSE));
         }
         dealContractorRepository.logicDelete(dealContractorId);
     }
