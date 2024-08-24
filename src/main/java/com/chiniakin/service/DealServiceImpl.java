@@ -12,12 +12,13 @@ import com.chiniakin.model.deal.DealFilter;
 import com.chiniakin.model.deal.DealModel;
 import com.chiniakin.model.deal.SaveDealModel;
 import com.chiniakin.model.deal.DealContractorResponse;
+import com.chiniakin.model.rabbit.RabbitTask;
 import com.chiniakin.repository.ContractorRoleRepository;
 import com.chiniakin.repository.DealContractorRepository;
 import com.chiniakin.repository.DealRepository;
 import com.chiniakin.repository.DealStatusRepository;
 import com.chiniakin.service.interfaces.DealService;
-import com.chiniakin.service.interfaces.HttpClientService;
+import com.chiniakin.service.interfaces.RabbitMqService;
 import com.chiniakin.specification.DealServiceSpecification;
 import com.chiniakin.util.auth.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +47,7 @@ public class DealServiceImpl implements DealService {
     private final DealContractorRepository dealContractorRepository;
     private final DealContractorMapper dealContractorMapper;
     private final ContractorRoleRepository contractorRoleRepository;
-    private final HttpClientService httpClientService;
+    private final RabbitMqService rabbitMqService;
 
     public DealModel getDealById(UUID id) {
         Deal deal = dealRepository.findByIdWithDetailsOrThrow(id);
@@ -63,7 +64,6 @@ public class DealServiceImpl implements DealService {
         Deal deal = dealRepository.findByIdWithDetailsOrThrow(changeStatusModel.getDealId());
         DealContractor mainContractor = dealContractorRepository.findMainContractor(changeStatusModel.getDealId());
         sendMessageToContractor(changeStatusModel, mainContractor, deal);
-
         DealStatus dealStatus = dealStatusRepository.findDealStatusByIdOrThrow(changeStatusModel.getDealStatusId());
 
         dealRepository.changeStatusDeal(changeStatusModel.getDealId(), dealStatus);
@@ -90,13 +90,13 @@ public class DealServiceImpl implements DealService {
         if (dealContractorRepository.checkMain(mainContractor.getContractorId()) <= 1) {
             if ((deal.getStatus().getId().equals(DealStatusEnum.getDealStatusEnumById("DRAFT")) &&
                     changeStatusModel.getDealStatusId().equals(DealStatusEnum.getDealStatusEnumById("DRAFT")))) {
-                httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.TRUE);
+                rabbitMqService.sendMessage(RabbitTask.of(mainContractor.getContractorId(), Boolean.TRUE));
             } else if (deal.getStatus().getId().equals(DealStatusEnum.getDealStatusEnumById("ACTIVE")) &&
                     changeStatusModel.getDealStatusId().equals(DealStatusEnum.getDealStatusEnumById("CLOSED"))) {
-                httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.FALSE);
+                rabbitMqService.sendMessage(RabbitTask.of(mainContractor.getContractorId(), Boolean.FALSE));
             } else if (deal.getStatus().getId().equals(DealStatusEnum.getDealStatusEnumById("CLOSED")) &&
                     changeStatusModel.getDealStatusId().equals(DealStatusEnum.getDealStatusEnumById("ACTIVE"))) {
-                httpClientService.sendRequestToContractor(mainContractor.getContractorId(), Boolean.TRUE);
+                rabbitMqService.sendMessage(RabbitTask.of(mainContractor.getContractorId(), Boolean.TRUE));
             }
         }
     }

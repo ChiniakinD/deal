@@ -10,7 +10,23 @@ spring:
     username: postgres
     password: deal
     driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
+  #      datasource:
+#        username: postgres
+#        password: postgres
+#        url: jdbc:postgresql://localhost:5432/your_db
+#        driver-class-name: org.postgresql.Driver
+  topic:
+    send-log: audit
   liquibase:
     change-log: classpath:liquibase/db.changelog.yml
     enabled: true
@@ -21,3 +37,5 @@ contractor:
 token:
   signing:
     key: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
+
+
